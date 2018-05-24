@@ -15,6 +15,16 @@ public func routes(_ router: Router) throws {
         
     }
     
+    //new route
+    router.post(InfoData.self, at: "info") { req, data -> String in
+        return "Hello \(data.name)!"
+    }
+    
+    //new route
+    router.post(InfoData.self, at: "infoGucci", use: { req, dataaf -> String in
+        return "Hello Gucci you my muh fu nika \(dataaf.name) and your age is \(dataaf.age)"
+    })
+    
     //add a new route that will say hello to anyone who visits
     //use string.parameter to specify that the second parameter can be any String object
     router.get("hello", String.parameter) { req -> String in
@@ -29,6 +39,12 @@ public func routes(_ router: Router) throws {
     router.get("todos", use: todoController.index)
     router.post("todos", use: todoController.create)
     router.delete("todos", Todo.parameter, use: todoController.delete)
+}
+
+//Vapor's Content protocol is a wrapper around Codeable and what the Content object does is extract the request data
+struct InfoData: Content {
+    let name: String
+    let age: Int
 }
 
 
